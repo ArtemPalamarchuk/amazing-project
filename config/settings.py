@@ -52,6 +52,8 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20,
 }
 
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+
 AUTH_USER_MODEL = "api.User"
 
 MIDDLEWARE = [
