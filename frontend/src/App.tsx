@@ -10,6 +10,21 @@ export default function App() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [newTask, setNewTask] = useState('')
+
+  async function handleCreateTask(e: React.FormEvent, projectId: number) {
+    e.preventDefault()
+    const task = await apiFetch('/api/tasks/', {
+      method: 'POST',
+      body: JSON.stringify({ project: projectId, title: newTask }),
+    })
+    setProjects((prev) =>
+      prev.map((p) =>
+        p.id === projectId ? { ...p, tasks: [task, ...p.tasks] } : p
+      )
+    )
+    setNewTask('')
+  }
 
   useEffect(() => {
     apiFetch('/api/auth/me/')
@@ -81,6 +96,14 @@ export default function App() {
               </li>
             ))}
           </ul>
+          <form onSubmit={(e) => handleCreateTask(e, project.id)}>
+            <input
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              placeholder="New task"
+            />
+            <button type="submit">Add</button>
+          </form>
         </section>
       ))}
     </main>
