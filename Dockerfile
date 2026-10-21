@@ -11,7 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 RUN python manage.py collectstatic --noinput
-RUN adduser --system --group app && chown -R app:app /app
+
+RUN adduser --system --group --home /home/app app \
+    && chown -R app:app /app /home/app
+
+ENV HOME=/home/app
 USER app
 
 EXPOSE 8000
