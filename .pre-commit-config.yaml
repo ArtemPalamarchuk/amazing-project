@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: django-migrations-check
+        name: django makemigrations --check
+        entry: python manage.py makemigrations --check --dry-run
+        language: system
+        pass_filenames: false
+        files: (models\.py|migrations/.*\.py)$
