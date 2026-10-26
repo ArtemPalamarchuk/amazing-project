@@ -13,5 +13,6 @@ Makefile
 .coveragerc
 conftest.py
 pytest.ini
+tests-e2e/
 .pytest_cache/
 .coverage
