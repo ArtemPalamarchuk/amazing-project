@@ -17,6 +17,11 @@ class TaskSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["created_at"]
 
+    def validate_project(self, project):
+        if project.owner != self.context["request"].user:
+            raise serializers.ValidationError("Project not found.")
+        return project
+
 
 class ProjectSerializer(serializers.ModelSerializer):
     tasks = TaskSerializer(many=True, read_only=True)
