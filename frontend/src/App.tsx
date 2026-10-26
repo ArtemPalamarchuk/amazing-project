@@ -20,8 +20,8 @@ export default function App() {
     })
     setProjects((prev) =>
       prev.map((p) =>
-        p.id === projectId ? { ...p, tasks: [task, ...p.tasks] } : p
-      )
+        p.id === projectId ? { ...p, tasks: [task, ...p.tasks] } : p,
+      ),
     )
     setNewTask('')
   }
