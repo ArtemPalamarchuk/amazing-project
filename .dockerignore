@@ -9,3 +9,4 @@ staticfiles/
 .pre-commit-config.yaml
 requirements-dev.txt
 ruff.toml
+Makefile
