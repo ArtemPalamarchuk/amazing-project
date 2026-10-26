@@ -6,7 +6,15 @@ from .models import Project, Task
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ["id", "project", "title", "description", "status", "assignee", "created_at"]
+        fields = [
+            "id",
+            "project",
+            "title",
+            "description",
+            "status",
+            "assignee",
+            "created_at",
+        ]
         read_only_fields = ["created_at"]
 
 
