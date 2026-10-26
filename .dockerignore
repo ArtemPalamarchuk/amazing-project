@@ -10,3 +10,8 @@ staticfiles/
 requirements-dev.txt
 ruff.toml
 Makefile
+.coveragerc
+conftest.py
+pytest.ini
+.pytest_cache/
+.coverage
