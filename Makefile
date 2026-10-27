@@ -1,10 +1,13 @@
-.PHONY: lint test e2e
+.PHONY: lint test test-js e2e
 
 lint:
 	pre-commit run --all-files
 
 test:
 	pytest -n auto --cov=api --cov-report=term-missing
+
+test-js:
+	cd frontend && npm test
 
 # Needs a running, migrated stack:
 #   docker compose up -d --build --wait
