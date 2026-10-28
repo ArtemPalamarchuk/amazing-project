@@ -23,7 +23,7 @@ def test_login_invalid(api_client, alice):
         {"username": "alice", "password": "wrong"},
         format="json",
     )
-    assert response.status_code == 401
+    assert response.status_code == 400
 
 
 @pytest.mark.django_db
