@@ -53,7 +53,10 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20,
 }
 
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+# Comma-separated; the prod compose stack serves the frontend on another port.
+CSRF_TRUSTED_ORIGINS = os.environ.get(
+    "CSRF_TRUSTED_ORIGINS", "http://localhost:5173"
+).split(",")
 
 AUTH_USER_MODEL = "api.User"
 
