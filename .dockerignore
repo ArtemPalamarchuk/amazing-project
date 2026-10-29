@@ -14,5 +14,6 @@ Makefile
 conftest.py
 pytest.ini
 tests-e2e/
+compose*.yaml
 .pytest_cache/
 .coverage
