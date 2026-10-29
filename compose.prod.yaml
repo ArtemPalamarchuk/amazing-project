@@ -1,0 +1,46 @@
+# Runs the stack from images in GHCR instead of building from local code.
+# Deploy or roll back = the same command with a different TAG:
+#   export TAG=sha-abc1234   # or a version, e.g. 0.1.0
+#   docker compose -f compose.prod.yaml up -d --wait
+# TAG is needed for every command on this file (exec, logs, down), so export it once.
+name: amazing-prod
+
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: amazing_project
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+
+  backend:
+    image: ghcr.io/artempalamarchuk/amazing-project-backend:${TAG:?set TAG, e.g. sha-abc1234}
+    # CI builds amd64 only (like a typical prod server); on Apple Silicon Docker emulates it.
+    platform: linux/amd64
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: amazing_project
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      CSRF_TRUSTED_ORIGINS: http://localhost:8080
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: ghcr.io/artempalamarchuk/amazing-project-frontend:${TAG:?set TAG, e.g. sha-abc1234}
+    platform: linux/amd64
+    # 8080 so it can run next to the dev stack on 5173.
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
